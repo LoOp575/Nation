@@ -174,3 +174,7 @@ footer { border-top: 1px solid var(--border); color: var(--muted); padding: 22px
 .source-inactive { color: #ffaaa5; background: rgba(230,100,100,.1); }
 .source-pending { color: #d5c38b; background: rgba(200,170,90,.1); }
 @media (max-width: 700px) { .observatory-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+.module-link { display: block; color: inherit; text-decoration: none; transition: border-color .15s ease, transform .15s ease, background .15s ease; }
+.module-link:hover { border-color: rgba(80,197,167,.35); background: rgba(80,197,167,.045); transform: translateY(-2px); }
+.module-open { display: inline-block; margin-top: 8px; color: var(--accent); font-size: 9px; }
