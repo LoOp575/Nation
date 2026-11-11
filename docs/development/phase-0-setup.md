@@ -32,14 +32,14 @@ The following migrations are applied to the dedicated project and versioned in t
 1. `20261111103247_initial_national_pulse_foundation`
 2. `20261111103315_national_pulse_security_and_fk_indexes`
 
-The initial schema contains 10 tables. All 10 have RLS enabled. Public roles have read-only grants on the published dashboard surface; private operational tables have no public table grants and explicit deny policies.
+The initial schema contains 10 tables. All 10 have RLS enabled. Public roles have read-only grants on the published dashboard surface; private operational tables have no public table grants and explicit deny policies. The source registry currently contains two official source entries: BPS WebAPI and Bank Indonesia SEKI. This is source registration only, not active automated ingestion; BPS requires a registered API key and commercial-use approval where applicable, while a permitted stable BI API endpoint has not yet been verified.
 
 ## Verification completed
 
 - SQL assertions in `supabase/tests/001_initial_security.sql`: passed.
 - Supabase security advisor: no findings after explicit deny policies were added.
 - Supabase performance advisor: no foreign-key index findings. It currently reports unused indexes because the new database has not yet received production query traffic; do not remove these indexes solely on this initial empty-database signal.
-- GitHub Actions CI: latest observed run before the database follow-up commits completed successfully. New commits trigger another CI run.
+- GitHub Actions CI: multiple runs after generated database types and live snapshot integration have passed typecheck and production build. The latest migration-file rename has triggered a fresh run and must be checked before release.
 
 ## Local setup
 
@@ -58,7 +58,7 @@ Set these variables in `.env.local`:
 
 The project URL is available from the Supabase project settings. Use the publishable key, never the service-role/secret key, in browser-exposed configuration. Never put a service-role/secret key in a `NEXT_PUBLIC_*` variable or browser bundle.
 
-The dashboard intentionally displays "Menunggu data" until verified official source connectors are configured. Do not add demo values that look like national observations.
+The dashboard reads only PUBLISHED indicators and observations from Supabase, joins source metadata, and displays observation periods, evidence labels, source links, and fetched timestamps. It still displays pending states when no official observations are published. Do not add demo values that look like national observations.
 
 ## Remaining gates
 
@@ -66,7 +66,7 @@ The dashboard intentionally displays "Menunggu data" until verified official sou
 - Re-run CI after the latest repository changes and fix any failures.
 - Configure the two public Supabase environment variables in the Vercel project.
 - Verify a Vercel preview deployment.
-- Implement and verify the first official source connector before publishing national observations.
+- Implement and verify the first official source ingestion connector. BPS WebAPI and BI SEKI are registered as source entry points only; no automated ingestion is active yet.
 - Introduce analyst/admin roles only with a documented authorization model and dedicated RLS tests.
 
 ## Security contract
