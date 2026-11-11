@@ -47,7 +47,8 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 - Build the first National Snapshot read path with published-only filtering, source attribution, observation period, evidence label, and fetched timestamp
 
 **Next work:**
-- Verify and implement one official BPS ingestion connector, including API registration, key handling, terms, rate limits, and idempotency
+- Implement the server-only BPS WebAPI client and authenticated province-domain discovery ingestion route; live execution remains gated on BPS credentials and deployment secrets
+- Continue to selected BPS statistical-table metadata and indicator ingestion after mapping and validation
 - Verify a permitted BI data access method before implementing an automated connector; keep manual/import fallback where no stable API is confirmed
 - Add ingestion job health and Data Observatory visibility
 - Add analyst/admin role model and RLS tests before any privileged user workflow
