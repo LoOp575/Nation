@@ -69,6 +69,14 @@ export default async function HomePage() {
                   {item.latest
                     ? `Periode ${formatPeriod(item.latest.period_start)} – ${formatPeriod(item.latest.period_end)} · ${item.latest.evidence_status}`
                     : item.description ?? `Satuan: ${item.unit}`}
+                  {item.latest && (
+                    <span className="provenance">
+                      {item.latest.source ? (
+                        <>Sumber: <a href={item.latest.source.source_url} target="_blank" rel="noreferrer">{item.latest.source.name}</a></>
+                      ) : "Sumber belum dicantumkan"}
+                      {" · "}Diambil: {new Date(item.latest.fetched_at).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })}
+                    </span>
+                  )}
                 </div>
               </article>
             ))}
