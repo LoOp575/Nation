@@ -66,7 +66,8 @@ The dashboard reads only PUBLISHED indicators and observations from Supabase, jo
 - Re-run CI after the latest repository changes and fix any failures.
 - Configure the two public Supabase environment variables in the Vercel project.
 - Verify a Vercel preview deployment.
-- Implement and verify the first official source ingestion connector. BPS WebAPI and BI SEKI are registered as source entry points only; no automated ingestion is active yet.
+- Configure the BPS API key and server-only ingestion secrets, then execute and verify the province-domain discovery route. The connector code is implemented, but no live BPS fetch has been confirmed yet.
+- Continue from domain discovery to selected statistical table metadata and indicator ingestion only after the dataset mapping is validated.
 - Introduce analyst/admin roles only with a documented authorization model and dedicated RLS tests.
 
 ## Security contract
