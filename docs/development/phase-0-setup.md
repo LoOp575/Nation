@@ -1,15 +1,45 @@
 # Phase 0: Application Foundation
 
-## What this commit establishes
+## What this phase establishes
 
 - Next.js App Router + TypeScript application scaffold.
 - Supabase SSR browser/server client factories using the publishable key.
 - Environment validation that allows the app shell to render before credentials exist.
-- Initial PostgreSQL migration for source catalog, ingestion jobs, raw documents, indicators, observations, revisions, news, events, evidence, and audit logs.
-- RLS on every table created by the migration.
-- Public read-only grants for explicitly published dashboard records.
-- Private operational tables with no anon/authenticated table grants.
-- CI workflow for TypeScript checks and production build.
+- Initial PostgreSQL schema for source catalog, ingestion jobs, raw documents, indicators, observations, revisions, news, events, evidence, and audit logs.
+- RLS on all 10 initial tables.
+- Public read-only access only for explicitly published dashboard records.
+- Explicit deny policies for private operational tables.
+- Foreign-key indexes for expected joins and referential operations.
+- GitHub Actions workflow for TypeScript checks and production build.
+
+## Supabase project
+
+A dedicated Supabase project has been provisioned for National Pulse:
+
+- Project name: `National Pulse`
+- Project ref: `bwdvzleoggzdmjlkpdsx`
+- Region: `ap-southeast-1` (Singapore)
+- Database: PostgreSQL 17
+- Project status at last verification: `ACTIVE_HEALTHY`
+- Project creation estimate returned by Supabase: USD 0/month
+
+This project is separate from the existing `Warung` and `Whale-act` projects. Do not link or migrate either existing project.
+
+## Applied migrations
+
+The following migrations are applied to the dedicated project and versioned in this repository:
+
+1. `20261111103247_initial_national_pulse_foundation`
+2. `20261111103315_national_pulse_security_and_fk_indexes`
+
+The initial schema contains 10 tables. All 10 have RLS enabled. Public roles have read-only grants on the published dashboard surface; private operational tables have no public table grants and explicit deny policies.
+
+## Verification completed
+
+- SQL assertions in `supabase/tests/001_initial_security.sql`: passed.
+- Supabase security advisor: no findings after explicit deny policies were added.
+- Supabase performance advisor: no foreign-key index findings. It currently reports unused indexes because the new database has not yet received production query traffic; do not remove these indexes solely on this initial empty-database signal.
+- GitHub Actions CI: latest observed run before the database follow-up commits completed successfully. New commits trigger another CI run.
 
 ## Local setup
 
@@ -21,65 +51,29 @@ cp .env.example .env.local
 npm run dev
 ```
 
-The dashboard intentionally displays "Menunggu data" until a real project and verified source connectors are configured. Do not add demo values that look like national observations.
-
-Set these variables in `.env.local` for the provisioned National Pulse project:
+Set these variables in `.env.local`:
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 
-Never put a Supabase secret/service-role key in a `NEXT_PUBLIC_*` variable or browser bundle.
+The project URL is available from the Supabase project settings. Use the publishable key, never the service-role/secret key, in browser-exposed configuration. Never put a service-role/secret key in a `NEXT_PUBLIC_*` variable or browser bundle.
 
-## Supabase migration
+The dashboard intentionally displays "Menunggu data" until verified official source connectors are configured. Do not add demo values that look like national observations.
 
-The migration is in `supabase/migrations/` and has already been applied to the remote National Pulse project. For future schema changes, link the project with the Supabase CLI:
+## Remaining gates
 
-```bash
-supabase link --project-ref YOUR_NATIONAL_PULSE_PROJECT_REF
-supabase db push
-```
-
-For a local disposable database:
-
-```bash
-supabase start
-supabase db reset
-```
-
-Then run the SQL assertions in `supabase/tests/001_initial_security.sql` using the local SQL editor/psql connection. They check that RLS is enabled on all initial tables, private operational tables are not readable by public roles, and public roles have no write grants.
+- Generate and commit `package-lock.json` with `npm install` before production deployment.
+- Re-run CI after the latest repository changes and fix any failures.
+- Configure the two public Supabase environment variables in the Vercel project.
+- Verify a Vercel preview deployment.
+- Implement and verify the first official source connector before publishing national observations.
+- Introduce analyst/admin roles only with a documented authorization model and dedicated RLS tests.
 
 ## Security contract
 
-- RLS is enabled on all tables in the exposed `public` schema created here.
-- Public roles can only SELECT the published dashboard surface.
-- Draft/review/archived rows are not exposed by the read policies.
-- Ingestion jobs, raw documents, revision history, and audit logs are service-role operational data.
-- No service-role/secret key is used by this web app.
+- RLS is enabled on all application tables in the exposed `public` schema.
+- Public roles can only SELECT active source catalog entries and explicitly published dashboard records.
+- Draft, review, and archived rows are not exposed by public read policies.
+- Ingestion jobs, raw documents, revision history, and audit logs are private operational data.
+- No service-role/secret key is used by the browser application.
 - RLS and SQL grants are separate controls; both are configured explicitly.
-
-## Current remote project
-
-- Project: `National Pulse`
-- Project ref: `bwdvzleoggzdmjlkpdsx`
-- Region: `ap-southeast-1` (Singapore)
-- Status at last verification: `ACTIVE_HEALTHY`
-- Initial migration: applied successfully
-- Initial tables: 10, all with RLS enabled
-- Supabase security advisor: no security lints at last check
-
-## Not yet complete
-
-- No real source connector or official observation has been ingested.
-- No authenticated analyst/admin role model has been introduced.
-- Local `.env.local` and Vercel environment variables have not been configured.
-- A dependency lockfile must be generated with `npm install` and committed before production deployment.
-- CI/build has not yet been confirmed green.
-
-## Exit checks
-
-```bash
-npm run typecheck
-npm run build
-```
-
-Run the SQL assertions only after applying the migration to a disposable/local database or the dedicated project.
