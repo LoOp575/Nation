@@ -31,6 +31,9 @@ The following migrations are applied to the dedicated project and versioned in t
 
 1. `20261111103247_initial_national_pulse_foundation`
 2. `20261111103315_national_pulse_security_and_fk_indexes`
+3. `20261111103635_register_initial_official_sources`
+4. `20261111103930_raw_document_external_identity`
+5. `20261111103954_raw_document_upsert_index`
 
 The initial schema contains 10 tables. All 10 have RLS enabled. Public roles have read-only grants on the published dashboard surface; private operational tables have no public table grants and explicit deny policies. The source registry currently contains two official source entries: BPS WebAPI and Bank Indonesia SEKI. This is source registration only, not active automated ingestion; BPS requires a registered API key and commercial-use approval where applicable, while a permitted stable BI API endpoint has not yet been verified.
 
@@ -63,6 +66,7 @@ The dashboard reads only PUBLISHED indicators and observations from Supabase, jo
 ## Remaining gates
 
 - Generate and commit `package-lock.json` with `npm install` before production deployment.
+- Run a clean local install/build outside GitHub Actions; this remains unverified.
 - Re-run CI after the latest repository changes and fix any failures.
 - Configure the two public Supabase environment variables in the Vercel project.
 - Verify a Vercel preview deployment.
