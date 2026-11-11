@@ -9,7 +9,11 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 ### Current implementation checkpoint (11 November 2026)
 
 **Committed to `main`:**
-- Next.js App Router + TypeScript scaffold and responsive dashboard shell
+- Next.js App Router + TypeScript scaffold
+- Responsive application workspace with desktop sidebar, mobile drawer, active navigation, breadcrumb, and shared layout
+- Dashboard route retained as the National Snapshot home
+- Structured module routes for economy, fiscal/monetary, social welfare, development, governance, news/events, event impact, Anti-Mafia, national risk, regional intelligence, AI analyst, Data Observatory, and data gaps
+- Module pages state their purpose and planned data scope without presenting mock metrics as real observations
 - Supabase browser/server SSR client factories and cookie-refresh proxy
 - Environment example with publishable-key-only browser configuration
 - Initial PostgreSQL migration for source catalog, ingestion, raw documents, indicators, observations/revisions, news, events/evidence, and audit logs
@@ -18,36 +22,37 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 - SQL security assertions and GitHub Actions typecheck/build workflow
 - Local setup and migration instructions
 
-**Still pending before Phase 0 can be declared complete:**
+**Verified on the dedicated Supabase project:**
+- Project `National Pulse` is active in Singapore
+- Initial schema has 10 foundation tables
+- RLS is enabled on all 10 tables
+- Supabase security advisor returned no security lints at the last check
+- BPS WebAPI and BI SEKI are registered as source entry points; registration does not mean automated ingestion is running
+
+**Still pending:**
 - Generate and commit `package-lock.json`
-- Run CI and fix any build/type errors reported by GitHub Actions
-- Create/select a dedicated National Pulse Supabase project; existing unrelated projects must not be reused
-- Apply the migration to a disposable/local database and run the SQL security assertions
-- Confirm remote RLS/grants with Supabase advisors
-- Confirm Vercel deployment configuration and environment variables
-- Add canonical generated database types after the schema is applied
+- Confirm latest GitHub Actions typecheck/build run passes
+- Run a clean local install/build and fix any reported issues
+- Add canonical generated TypeScript database types from the applied schema
+- Verify and document Vercel deployment and environment variables
+- Implement and test the BPS connector with credentials kept server-side
+- Verify a permitted BI automated data access method before implementing its connector
+- Add real source observations and Data Observatory ingestion health
+- Complete all module-specific data views and analysis workflows
 
-- Confirm Vercel deployment target and Supabase project environments
-- Initialize Next.js + TypeScript application
-- Initialize Supabase CLI and committed `supabase/migrations/` structure
-- Define environment variable and secrets policy
-- Add lint, type-check, and test pipeline
-- Finalize canonical data contracts and generated TypeScript database types
-- Create source register and connector acceptance checklist
-- Define initial RLS roles and policy tests
-
-**Exit criteria:** application builds, tests run, initial Supabase migration applies cleanly, RLS policies are tested, secrets are not committed, architecture is documented.
+**Phase 0 exit criteria:** application builds, tests run, initial Supabase migration applies cleanly, RLS policies are tested, secrets are not committed, architecture is documented.
 
 ## Phase 1 — Supabase data foundation and first dashboard
 
-**Completed foundation:**
-- Create and apply the initial Supabase schema for sources, raw documents, indicators, observations, revisions, news/events, evidence, and audit logs
-- Enable RLS on all 10 initial tables; publish-only reads and explicit private-table denial are in place
-- Register BPS WebAPI and BI SEKI as official source entry points (registration only, not ingestion)
-- Build the first National Snapshot read path with published-only filtering, source attribution, observation period, evidence label, and fetched timestamp
+**Foundation completed:**
+- Initial Supabase schema for sources, raw documents, indicators, observations, revisions, news/events, evidence, and audit logs
+- RLS on all 10 initial tables; publish-only reads and private operational tables
+- BPS WebAPI and BI SEKI source register entries
+- National Snapshot read path with published-only filtering, source attribution, observation period, evidence label, and fetched timestamp
+- Responsive dashboard shell and all first-level intelligence module routes
 
 **Next work:**
-- Implement the server-only BPS WebAPI client and authenticated province-domain discovery ingestion route; live execution remains gated on BPS credentials and deployment secrets
+- Implement the server-only BPS WebAPI client and authenticated province/domain discovery ingestion route; live execution remains gated on BPS credentials and deployment secrets
 - Continue to selected BPS statistical-table metadata and indicator ingestion after mapping and validation
 - Verify a permitted BI data access method before implementing an automated connector; keep manual/import fallback where no stable API is confirmed
 - Add ingestion job health and Data Observatory visibility
