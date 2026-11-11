@@ -46,6 +46,8 @@ h1 { margin: 12px 0 10px; max-width: 760px; font-size: clamp(34px, 5vw, 54px); l
 .panel-label { color: var(--muted); font-size: 12px; }
 .panel-value { margin: 14px 0 8px; font-size: 23px; font-weight: 700; letter-spacing: -.03em; }
 .panel-note { color: var(--muted); font-size: 12px; line-height: 1.55; }
+.provenance { display: block; margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+.provenance a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 .module-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .module { border: 1px solid var(--border); background: rgba(13,27,43,.7); border-radius: 13px; padding: 15px; }
 .module h3 { margin: 0 0 7px; font-size: 13px; }
