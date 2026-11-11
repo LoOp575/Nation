@@ -40,7 +40,7 @@ async function requestBps(path: string): Promise<BpsEnvelope> {
     method: "GET",
     headers: { Accept: "application/json" },
     cache: "no-store",
-      signal: AbortSignal.timeout(15_000),
+      signal: AbortSignal.timeout(8_000),
     });
   } catch {
     throw new BpsApiError("Tidak dapat menghubungi WebAPI BPS atau koneksi timeout.");
