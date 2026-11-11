@@ -110,9 +110,9 @@ Supabase is the selected database platform, not merely an optional compatibility
 
 ## Application status
 
-The repository now includes the initial Next.js + TypeScript application scaffold, Supabase SSR client setup, a first PostgreSQL migration, baseline RLS policies, SQL security assertions, and a GitHub Actions build workflow.
+The repository includes the initial Next.js + TypeScript application scaffold, Supabase SSR client setup, PostgreSQL foundation migration, baseline RLS policies, SQL security assertions, and a GitHub Actions build workflow.
 
-The dashboard shell is intentionally honest about missing data: it shows pending states rather than fabricated national values. No official data connector has been activated yet, and the migration has not been applied to a remote Supabase project.
+A dedicated Supabase project named **National Pulse** is provisioned in Singapore and the initial migration has been applied. The database currently has 10 empty foundation tables, with RLS enabled on all 10. Supabase security advisor returned no security lints at the time of the latest check. No official data connector has been activated yet; the dashboard therefore continues to show pending states rather than fabricated national values.
 
 ### Run locally
 
@@ -124,7 +124,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from a dedicated National Pulse Supabase project. Until then, the dashboard shell can render without live data.
+Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the National Pulse project settings. Keep `.env.local` out of Git. The public publishable key is intended for browser use with RLS; never use a secret/service-role key in the client.
 
 Migration and setup details: [Phase 0 setup](docs/development/phase-0-setup.md).
 
