@@ -11,7 +11,7 @@ This register identifies official source entry points. A source being listed or 
 - Cost: BPS states that WebAPI access is free for compliant use.
 - Attribution: display **"Layanan ini menggunakan API Badan Pusat Statistik (BPS)."**
 - Important restrictions: keep the API key secret; use it only for the registered application; respect rate limits and current terms. BPS terms say commercial use requires prior approval or a cooperation agreement.
-- Ingestion status: registered as a source candidate; connector and API key are not yet configured.
+- Ingestion status: source catalog registered; server-only BPS adapter and protected province-domain discovery route are implemented. A live run still requires an approved BPS API key and server environment secrets. This discovery job does not ingest or publish statistical indicator values.
 
 ## 2. Bank Indonesia SEKI
 
