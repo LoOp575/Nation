@@ -40,13 +40,19 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 
 ## Phase 1 — Supabase data foundation and first dashboard
 
-- Create the first Supabase PostgreSQL migration for sources, raw documents, indicators, observations, revisions, news/events, evidence, and audit logs
-- Add explicit RLS policies for public, analyst, and administrator access
-- Configure private Supabase Storage buckets only where source terms permit
-- Implement one verified BPS connector and one BI connector, subject to access approval
-- Add manual/import fallback for sources without stable APIs
-- Build National Snapshot dashboard with source, period, and freshness labels
-- Build Data Observatory showing connector health and missing data
+**Completed foundation:**
+- Create and apply the initial Supabase schema for sources, raw documents, indicators, observations, revisions, news/events, evidence, and audit logs
+- Enable RLS on all 10 initial tables; publish-only reads and explicit private-table denial are in place
+- Register BPS WebAPI and BI SEKI as official source entry points (registration only, not ingestion)
+- Build the first National Snapshot read path with published-only filtering, source attribution, observation period, evidence label, and fetched timestamp
+
+**Next work:**
+- Verify and implement one official BPS ingestion connector, including API registration, key handling, terms, rate limits, and idempotency
+- Verify a permitted BI data access method before implementing an automated connector; keep manual/import fallback where no stable API is confirmed
+- Add ingestion job health and Data Observatory visibility
+- Add analyst/admin role model and RLS tests before any privileged user workflow
+- Configure private Supabase Storage only when source terms permit it
+- Expand the dashboard from the initial published-indicator snapshot to national coverage only as verified source data becomes available
 
 **Exit criteria:** displayed values trace to original source records; stale/missing data is explicit; ingestion is idempotent; unauthorized database access is denied.
 
