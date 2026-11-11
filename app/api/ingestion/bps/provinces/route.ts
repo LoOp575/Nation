@@ -4,7 +4,7 @@ import { BpsApiError } from "@/lib/sources/bps/client";
 import { ingestBpsProvinceDomains } from "@/lib/sources/bps/ingest-provinces";
 
 export const runtime = "nodejs";
-export const maxDuration = 30;
+export const maxDuration = 10;
 
 function isAuthorized(request: NextRequest) {
   const expected = process.env.NATIONAL_PULSE_INGESTION_SECRET;
