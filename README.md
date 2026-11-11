@@ -88,27 +88,29 @@ Anti-Mafia Intelligence monitors public projects, budgets, procurement, contract
 - Legal findings must be grounded in relevant official legal records and described precisely.
 - Protect personal data and restrict sensitive records.
 
-## Initial data-source candidates
+## Data sources
 
 BPS, Bank Indonesia, Ministry of Finance, OJK, Bappenas, LKPP/SiRUP/LPSE, KPK public information and LHKPN where accessible, BMKG, official ministries/agencies, regional government portals, and reputable media.
 
 Each connector must be independently verified for access method, terms, rate limits, update frequency, and permitted reuse before implementation. Do not assume an API exists or is unrestricted.
 
-## Technology direction
+## Technology stack
 
-Proposed initial stack, subject to repository and deployment validation:
+- **Web:** Next.js + TypeScript
+- **Database/backend platform:** Supabase (managed PostgreSQL)
+- **Authentication:** Supabase Auth when user accounts and analyst roles are introduced
+- **Database security:** PostgreSQL Row Level Security (RLS), least-privilege policies
+- **File archive:** Supabase Storage for permitted source documents and internal attachments; retain source URLs and metadata
+- **Web hosting:** Vercel for the Next.js application and lightweight API routes
+- **Data ingestion:** server-side source adapters; scheduled jobs and a separate worker for long-running or heavy processing
+- **Visualization:** ECharts
+- **Analytics:** deterministic SQL/Python processing; AI is not the source of numeric truth
 
-- Next.js + TypeScript
-- PostgreSQL (Supabase-compatible)
-- Server-side source adapters and scheduled ingestion
-- Python only where statistical/data processing benefits from it
-- ECharts for visualizations
-- Vercel for web hosting and lightweight API routes
-- A separate worker/scheduler for workloads unsuitable for serverless execution
+Supabase is the selected database platform, not merely an optional compatibility target. Database schema changes must be versioned as SQL migrations in `supabase/migrations/`. Never expose the Supabase service-role key in browser code. Enable RLS for tables exposed through the Supabase API, and keep privileged ingestion operations server-side.
 
 ## Repository status
 
-This repository is being initialized with product and technical specifications first. The presence of these documents does **not** mean live data connectors, dashboards, risk models, or AI workflows have already been implemented.
+This repository currently contains product and technical specifications. The presence of these documents does **not** mean live data connectors, dashboards, database migrations, or AI workflows have already been implemented.
 
 See:
 - [Product architecture](docs/architecture/overview.md)
@@ -120,4 +122,4 @@ See:
 
 ## Development rule
 
-Preserve existing work. Before introducing application code, inspect the repository state, define the first deployable vertical slice, add tests, and document any source/API limitations. Never commit credentials, API keys, private personal data, or unverified allegations.
+Preserve existing work. Build a deployable vertical slice, add tests, and document source/API limitations. Never commit credentials, API keys, private personal data, or unverified allegations.
