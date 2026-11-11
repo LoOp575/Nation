@@ -110,9 +110,9 @@ Supabase is the selected database platform, not merely an optional compatibility
 
 ## Application status
 
-The repository includes the initial Next.js + TypeScript application scaffold, Supabase SSR client setup, PostgreSQL foundation migration, baseline RLS policies, SQL security assertions, and a GitHub Actions build workflow.
+The repository includes a responsive Next.js + TypeScript workspace, 13 module routes, Supabase SSR and server-only admin clients, PostgreSQL foundation schema, baseline RLS policies, SQL security assertions, and a GitHub Actions typecheck/build workflow.
 
-A dedicated Supabase project named **National Pulse** is provisioned in Singapore and the initial migration has been applied. The database currently has 10 empty foundation tables, with RLS enabled on all 10. Supabase security advisor returned no security lints at the time of the latest check. No official data connector has been activated yet; the dashboard therefore continues to show pending states rather than fabricated national values.
+A dedicated Supabase project named **National Pulse** is provisioned in Singapore. The database has 10 foundation tables with RLS enabled on all 10; the latest security advisor check returned no security lints. BPS WebAPI province-domain discovery and a protected, idempotent Supabase ingestion route are implemented in code. They require server-side BPS and Supabase credentials before live ingestion can be verified. No statistical indicator observations have been ingested or published yet, so the National Snapshot correctly shows pending states rather than fabricated national values. The Data Observatory now has a database-backed view of registered sources and ingestion job history.
 
 ### Run locally
 
@@ -124,7 +124,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the National Pulse project settings. Keep `.env.local` out of Git. The public publishable key is intended for browser use with RLS; never use a secret/service-role key in the client.
+Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the National Pulse project settings. For private ingestion, also configure `SUPABASE_SECRET_KEY`, `NATIONAL_PULSE_INGESTION_SECRET`, and `BPS_API_KEY` in the server environment only. Keep `.env.local` out of Git. The public publishable key is intended for browser use with RLS; never use a secret key in the client.
 
 Migration and setup details: [Phase 0 setup](docs/development/phase-0-setup.md).
 
@@ -135,6 +135,7 @@ See:
 - [Anti-Mafia Intelligence](docs/intelligence/anti-mafia.md)
 - [Database blueprint](docs/data/database-blueprint.md)
 - [Implementation roadmap](docs/roadmap.md)
+- [BPS WebAPI connector](docs/data/bps-connector.md)
 
 ## Development rule
 
