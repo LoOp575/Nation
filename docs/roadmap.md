@@ -35,9 +35,9 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 - Run a clean local install/build and fix any reported issues
 - Add canonical generated TypeScript database types from the applied schema
 - Verify and document Vercel deployment and environment variables
-- Implement and test the BPS connector with credentials kept server-side
+- Configure BPS and Supabase server secrets in deployment and run the first authenticated ingestion test
 - Verify a permitted BI automated data access method before implementing its connector
-- Add real source observations and Data Observatory ingestion health
+- Import selected BPS statistical datasets into draft observations after metadata/period/unit mapping; add ingestion health and source freshness monitoring
 - Complete all module-specific data views and analysis workflows
 
 **Phase 0 exit criteria:** application builds, tests run, initial Supabase migration applies cleanly, RLS policies are tested, secrets are not committed, architecture is documented.
@@ -52,10 +52,15 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 - Responsive dashboard shell and all first-level intelligence module routes
 
 **Next work:**
-- Implement the server-only BPS WebAPI client and authenticated province/domain discovery ingestion route; live execution remains gated on BPS credentials and deployment secrets
+- Implemented the server-only BPS WebAPI province-domain client and bearer-protected POST ingestion route
+- Implemented idempotent upsert into `raw_source_documents` using `(source_id, external_id)` and SHA-256 content hashes
+- Implemented `ingestion_jobs` lifecycle tracking for success/failure and record counts
+- Added a server-only Supabase admin client using the secret key; no privileged key is exposed to browser code
+- Added a database-backed Data Observatory view for registered sources and recent ingestion job summaries
+- Live execution remains gated on BPS API key, Supabase secret key, ingestion bearer secret, and a deployed environment
 - Continue to selected BPS statistical-table metadata and indicator ingestion after mapping and validation
 - Verify a permitted BI data access method before implementing an automated connector; keep manual/import fallback where no stable API is confirmed
-- Add ingestion job health and Data Observatory visibility
+- Add ingestion scheduling and alerting after manual authenticated ingestion has been verified
 - Add analyst/admin role model and RLS tests before any privileged user workflow
 - Configure private Supabase Storage only when source terms permit it
 - Expand the dashboard from the initial published-indicator snapshot to national coverage only as verified source data becomes available
