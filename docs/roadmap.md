@@ -6,6 +6,27 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 
 ## Phase 0 — Repository and product foundation
 
+### Current implementation checkpoint (11 November 2026)
+
+**Committed to `main`:**
+- Next.js App Router + TypeScript scaffold and responsive dashboard shell
+- Supabase browser/server SSR client factories and cookie-refresh proxy
+- Environment example with publishable-key-only browser configuration
+- Initial PostgreSQL migration for source catalog, ingestion, raw documents, indicators, observations/revisions, news, events/evidence, and audit logs
+- RLS enabled on every table created by the initial migration
+- Public read-only policies for published dashboard records; operational tables remain private to service-role workflows
+- SQL security assertions and GitHub Actions typecheck/build workflow
+- Local setup and migration instructions
+
+**Still pending before Phase 0 can be declared complete:**
+- Generate and commit `package-lock.json`
+- Run CI and fix any build/type errors reported by GitHub Actions
+- Create/select a dedicated National Pulse Supabase project; existing unrelated projects must not be reused
+- Apply the migration to a disposable/local database and run the SQL security assertions
+- Confirm remote RLS/grants with Supabase advisors
+- Confirm Vercel deployment configuration and environment variables
+- Add canonical generated database types after the schema is applied
+
 - Confirm Vercel deployment target and Supabase project environments
 - Initialize Next.js + TypeScript application
 - Initialize Supabase CLI and committed `supabase/migrations/` structure
