@@ -108,9 +108,25 @@ Each connector must be independently verified for access method, terms, rate lim
 
 Supabase is the selected database platform, not merely an optional compatibility target. Database schema changes must be versioned as SQL migrations in `supabase/migrations/`. Never expose the Supabase service-role key in browser code. Enable RLS for tables exposed through the Supabase API, and keep privileged ingestion operations server-side.
 
-## Repository status
+## Application status
 
-This repository currently contains product and technical specifications. The presence of these documents does **not** mean live data connectors, dashboards, database migrations, or AI workflows have already been implemented.
+The repository now includes the initial Next.js + TypeScript application scaffold, Supabase SSR client setup, a first PostgreSQL migration, baseline RLS policies, SQL security assertions, and a GitHub Actions build workflow.
+
+The dashboard shell is intentionally honest about missing data: it shows pending states rather than fabricated national values. No official data connector has been activated yet, and the migration has not been applied to a remote Supabase project.
+
+### Run locally
+
+Requirements: Node.js 22 and npm.
+
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from a dedicated National Pulse Supabase project. Until then, the dashboard shell can render without live data.
+
+Migration and setup details: [Phase 0 setup](docs/development/phase-0-setup.md).
 
 See:
 - [Product architecture](docs/architecture/overview.md)
