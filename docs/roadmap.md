@@ -16,7 +16,7 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 - Module pages state their purpose and planned data scope without presenting mock metrics as real observations
 - Supabase browser/server SSR client factories and cookie-refresh proxy
 - Environment example with publishable-key-only browser configuration
-- Initial PostgreSQL migration for source catalog, ingestion, raw documents, indicators, observations/revisions, news, events/evidence, and audit logs
+- Five versioned PostgreSQL migrations are applied to the dedicated Supabase project; schema covers source catalog, ingestion, raw documents, indicators, observations/revisions, news, events/evidence, and audit logs
 - RLS enabled on every table created by the initial migration
 - Public read-only policies for published dashboard records; operational tables remain private to service-role workflows
 - SQL security assertions and GitHub Actions typecheck/build workflow
@@ -31,9 +31,9 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 
 **Still pending:**
 - Generate and commit `package-lock.json`
-- Latest GitHub Actions typecheck and production build pass for the current implementation
-- Run a clean local install/build outside GitHub Actions and fix any reported issues
-- Add canonical generated TypeScript database types from the applied schema
+- GitHub Actions typecheck and production build pass is recorded for the current implementation in commit `c987386`; verify the live Actions run before each release
+- Clean local install/build outside GitHub Actions remains unverified
+- Generated Supabase TypeScript database types are committed at `lib/supabase/database.types.ts`; regenerate after schema migrations
 - Verify and document Vercel deployment and environment variables
 - Configure BPS and Supabase server secrets in deployment and run the first authenticated ingestion test
 - Verify a permitted BI automated data access method before implementing its connector
@@ -47,12 +47,12 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 **Foundation completed:**
 - Initial Supabase schema for sources, raw documents, indicators, observations, revisions, news/events, evidence, and audit logs
 - RLS on all 10 initial tables; publish-only reads and private operational tables
-- BPS WebAPI and BI SEKI source register entries
+- BPS WebAPI and BI SEKI source register entries (registration only; not live automated ingestion)
 - National Snapshot read path with published-only filtering, source attribution, observation period, evidence label, and fetched timestamp
 - Responsive dashboard shell and all first-level intelligence module routes
 
 **Next work:**
-- Implemented the server-only BPS WebAPI province-domain client and bearer-protected POST ingestion route
+- Implemented the server-only BPS WebAPI province-domain client and bearer-protected POST ingestion route; live execution is still blocked on deployment secrets and a real BPS API key
 - Implemented idempotent upsert into `raw_source_documents` using `(source_id, external_id)` and SHA-256 content hashes
 - Implemented `ingestion_jobs` lifecycle tracking for success/failure and record counts
 - Added a server-only Supabase admin client using the secret key; no privileged key is exposed to browser code
