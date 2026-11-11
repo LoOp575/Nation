@@ -1,8 +1,20 @@
 # Database Blueprint
 
-This is a logical schema blueprint, not an applied database migration. Final physical types, indexes, constraints, and migrations must be reviewed against the selected PostgreSQL environment.
+This is a logical schema blueprint for the selected Supabase PostgreSQL platform. It is not an applied database migration. Final physical types, indexes, constraints, RLS policies, and migrations must be reviewed and tested before production.
 
-## 1. Design rules
+## 1. Platform decision
+
+Use Supabase-managed PostgreSQL as the canonical database for National Pulse.
+
+- SQL migrations live in `supabase/migrations/`.
+- Use Supabase CLI for local development and controlled migration deployment.
+- Keep separate development/staging/production projects where practical.
+- Generate and commit TypeScript database types from the schema.
+- Supabase Auth is the planned identity provider when accounts and analyst roles are introduced.
+- Supabase Storage is for permitted source documents and internal attachments; PostgreSQL stores metadata and provenance.
+- Keep service-role credentials server-side only.
+
+## 2. Design rules
 
 - Use stable UUID primary keys for canonical records.
 - Store original source payloads separately from normalized records.
@@ -12,8 +24,11 @@ This is a logical schema blueprint, not an applied database migration. Final phy
 - Store money with explicit currency and precision; never assume all values are IDR.
 - Store time in UTC and retain source timezone where relevant.
 - Do not store sensitive personal data unless necessary, lawful, and access-controlled.
+- Enable RLS on all tables exposed through the Supabase Data API.
+- Default to deny; grant access through explicit least-privilege policies.
+- Keep privileged ingestion writes behind trusted server/worker credentials.
 
-## 2. Core tables
+## 3. Core tables
 
 ### Reference and sources
 - countries
@@ -85,7 +100,34 @@ This is a logical schema blueprint, not an applied database migration. Final phy
 - user_roles
 - access_grants
 
-## 3. Common provenance fields
+## 4. Supabase-specific security and storage model
+
+### Row Level Security
+
+- Enable RLS on every exposed application table.
+- Public read access must be explicitly limited to approved, publication-ready records.
+- Drafts, analyst notes, personal data, case evidence under review, and internal operational records are not public by default.
+- Analysts receive only the permissions required for their assigned work.
+- Administrative access is restricted and audited.
+- Test policies for anonymous, authenticated, analyst, and administrator roles.
+- Never treat hiding a UI control as access control.
+
+### Storage buckets
+
+Start with private buckets for:
+- `source-archive`: original files when storage and redistribution are permitted
+- `analyst-attachments`: restricted working attachments
+
+Use non-guessable object paths and storage policies tied to record permissions. Store checksum, original URL, source, retrieval timestamp, licence/retention notes, and MIME type in relational metadata. Do not mirror copyrighted or restricted material without permission.
+
+### Secrets
+
+- Browser: only the Supabase publishable/anon key with RLS-protected access.
+- Server/worker: service-role key or narrowly scoped server credentials stored in deployment secrets.
+- Never commit `.env` files containing secrets.
+- Never expose service-role credentials through `NEXT_PUBLIC_*` variables.
+
+## 5. Common provenance fields
 
 For source-backed records, use a shared pattern:
 - id
@@ -103,7 +145,7 @@ For source-backed records, use a shared pattern:
 
 Not every table needs every field; use a normalized provenance relation where appropriate.
 
-## 4. Important relationships
+## 6. Important relationships
 
 - One source has many raw documents and ingestion jobs.
 - One indicator has many observations.
@@ -115,7 +157,7 @@ Not every table needs every field; use a normalized provenance relation where ap
 - One investigation case has evidence, reviews, counter-evidence, and response records.
 - Every risk assessment references a methodology/model version and input records.
 
-## 5. Data integrity constraints
+## 7. Data integrity constraints
 
 - Unique source_record_key per source when provider keys are stable.
 - Valid time ranges for office terms and ownership records.
@@ -125,7 +167,7 @@ Not every table needs every field; use a normalized provenance relation where ap
 - Foreign keys for provenance and project relationships.
 - No deletion of historical published values without a documented legal/retention reason and audit entry.
 
-## 6. First migration boundary
+## 8. First migration boundary
 
 The first deployable database migration should focus on:
 1. data_sources and ingestion_jobs
