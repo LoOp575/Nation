@@ -31,8 +31,8 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 
 **Still pending:**
 - Generate and commit `package-lock.json`
-- Confirm latest GitHub Actions typecheck/build run passes
-- Run a clean local install/build and fix any reported issues
+- Latest GitHub Actions typecheck and production build pass for the current implementation
+- Run a clean local install/build outside GitHub Actions and fix any reported issues
 - Add canonical generated TypeScript database types from the applied schema
 - Verify and document Vercel deployment and environment variables
 - Configure BPS and Supabase server secrets in deployment and run the first authenticated ingestion test
