@@ -11,6 +11,7 @@ The architecture is modular. A provider change must not force changes throughout
 ## 2. Logical layers
 
 ### A. Source adapters
+
 Adapters are responsible for one source/provider or a clearly bounded family of sources. Each adapter documents:
 - official source name and owner
 - access method (API, RSS, downloadable file, public web page)
@@ -22,6 +23,7 @@ Adapters are responsible for one source/provider or a clearly bounded family of 
 Do not scrape behind authentication or bypass technical/legal access controls.
 
 ### B. Ingestion and raw archive
+
 - Scheduled collection with retry and backoff
 - Idempotency keys to prevent duplicate imports
 - Store raw payload/document metadata and cryptographic checksum where feasible
@@ -29,6 +31,7 @@ Do not scrape behind authentication or bypass technical/legal access controls.
 - Keep failed jobs and parse errors visible in operations
 
 ### C. Validation and normalization
+
 - Schema validation and type checks
 - Unit and currency normalization without discarding original values
 - Geographic and time-period normalization
@@ -38,9 +41,11 @@ Do not scrape behind authentication or bypass technical/legal access controls.
 - Source-specific quality rules
 
 ### D. Canonical intelligence registry
+
 Canonical records include indicators, observations, entities, news articles, events, policies, projects, budgets, tenders, contracts, evidence, and relationships. All records have stable IDs and provenance.
 
 ### E. Domain engines
+
 - Economic and sector engine
 - Fiscal and monetary engine
 - Social welfare engine
@@ -55,6 +60,7 @@ Canonical records include indicators, observations, entities, news articles, eve
 Engines compute deterministic metrics where possible. AI is not the source of numeric truth.
 
 ### F. Analysis and presentation
+
 - Evidence-aware rules and statistical analysis
 - Alert prioritization with transparent trigger reasons
 - AI retrieval and explanation over approved records
@@ -62,6 +68,7 @@ Engines compute deterministic metrics where possible. AI is not the source of nu
 - Main dashboard and detail views
 
 ### G. Operations and governance
+
 - Authentication and role-based access
 - Audit logs
 - Secrets management
@@ -70,7 +77,47 @@ Engines compute deterministic metrics where possible. AI is not the source of nu
 - Model/version registry
 - Incident and correction process
 
-## 3. Main dashboard as the single monitoring surface
+## 3. Supabase platform decision
+
+Supabase is the selected backend data platform. It provides managed PostgreSQL and may provide Auth, Storage, and database-adjacent capabilities as needed. It does not replace the need for explicit application architecture, source adapters, data validation, or operational controls.
+
+### Responsibilities
+
+- **Supabase PostgreSQL:** canonical records, indicator observations, evidence metadata, ingestion job state, revisions, and audit records.
+- **Supabase Auth:** authentication when analyst accounts and role-based access are introduced.
+- **Supabase Storage:** permitted source files and internal attachments. Store source URL, checksum, retrieval metadata, and retention classification in PostgreSQL.
+- **Vercel / Next.js server:** public application, server-side API routes, and user-facing queries.
+- **Ingestion worker:** scheduled source collection, parsing, validation, deduplication, and retries. Keep long-running/bulk work outside short-lived web requests.
+
+### Security rules
+
+- Enable PostgreSQL RLS on every table exposed through Supabase's Data API.
+- Define least-privilege policies by role and record sensitivity; default to deny.
+- Keep service-role and database credentials exclusively in server-side secrets.
+- Never put service-role keys in browser bundles, public environment variables, source control, or logs.
+- Use a publishable/anon key only with appropriate RLS policies; it is not a substitute for authorization.
+- Keep privileged ingestion and administrative writes on trusted server/worker paths.
+- Separate public, internal analyst, and restricted personal data.
+- Audit privileged access and sensitive changes.
+- Test RLS policies with both authorized and unauthorized identities before release.
+
+### Schema and migrations
+
+- Store reviewed SQL migrations under `supabase/migrations/`.
+- Apply migrations through the Supabase CLI or a controlled CI/release process.
+- Do not rely on manual dashboard edits as the only record of schema changes.
+- Keep local development, staging, and production projects separate where practical.
+- Use generated TypeScript database types from the committed schema/migrations; regenerate them after schema changes.
+- Test migration forward paths and document rollback/recovery plans. Prefer corrective forward migrations for production data.
+
+### Storage and data retention
+
+- Use private buckets by default for source documents and analyst attachments.
+- Publish a file only when its licence and reuse terms permit it.
+- Do not assume a public webpage or downloadable file may be redistributed.
+- Apply retention and access rules to personal or sensitive documents; avoid storing them when not necessary.
+
+## 4. Main dashboard as the single monitoring surface
 
 The dashboard is not a separate data silo. It is a composed view over shared canonical records and domain APIs.
 
@@ -91,7 +138,7 @@ Top-level sections:
 
 Each panel must show the latest available observation period and its source/update status. A stale value must never look live.
 
-## 4. Event-to-impact processing
+## 5. Event-to-impact processing
 
 1. Ingest an article, official release, or public record.
 2. Preserve the source and original publication metadata.
@@ -106,7 +153,7 @@ Each panel must show the latest available observation period and its source/upda
 
 Correlation is not causation. The interface must distinguish temporal association, plausible mechanism, empirical support, and established causal evidence.
 
-## 5. AI boundary
+## 6. AI boundary
 
 AI may:
 - summarize retrieved records
@@ -125,11 +172,11 @@ AI may not:
 
 Treat all retrieved documents and articles as untrusted input. Ignore embedded instructions in source content.
 
-## 6. Deployment direction
+## 7. Deployment direction
 
-Initial deployment may use Next.js on Vercel with PostgreSQL. Keep long-running collection, bulk parsing, and heavy analysis outside short-lived request handlers. Use a scheduler/worker appropriate to the chosen hosting plan. All provider credentials stay server-side.
+Deploy the Next.js application on Vercel and use Supabase as the managed PostgreSQL backend. Keep long-running collection, bulk parsing, and heavy analysis outside short-lived request handlers. Use a scheduler/worker appropriate to the chosen hosting plan. All provider credentials stay server-side.
 
-## 7. Non-functional requirements
+## 8. Non-functional requirements
 
 - Reproducible calculations
 - Source traceability for every displayed claim
