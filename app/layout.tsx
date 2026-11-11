@@ -1,0 +1,16 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "National Pulse | Indonesia Intelligence",
+  description:
+    "Dasbor intelijen nasional dan akuntabilitas publik berbasis data bersumber.",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="id">
+      <body>{children}</body>
+    </html>
+  );
+}
