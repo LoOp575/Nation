@@ -187,3 +187,14 @@ Deploy the Next.js application on Vercel and use Supabase as the managed Postgre
 - Accessible charts and tables
 - Role-based access and auditability
 - Monitoring, backups, and recovery procedures
+
+
+## 9. Repository implementation boundaries
+
+The canonical target tree and ownership rules are maintained in [Repository Structure](./repository-structure.md). Shared domain-module inputs/outputs, evidence labels, publication lifecycle and AI boundaries are defined in [Module Contracts](./module-contracts.md).
+
+These documents describe the target architecture. They do not imply that every planned directory, worker, connector or analysis engine has already been implemented. Create directories when real code is introduced; avoid empty placeholder trees.
+
+New provider integrations belong under `lib/connectors/<provider>/`. Existing BPS implementation under `lib/sources/bps/` remains in place until its imports and behavior can be migrated safely. Do not create duplicate provider clients during transition.
+
+The application layer composes pages and validates HTTP boundaries. Provider transport belongs to connectors; ingestion, normalization, validation, provenance and publication belong to the data engine; deterministic domain calculations belong to intelligence engines; AI is restricted to evidence retrieval and explanation. Shared read models belong in `lib/data/`. Long-running scheduled work belongs in a separately operated worker.
