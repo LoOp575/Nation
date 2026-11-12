@@ -163,3 +163,59 @@ Timelines should be estimated after repository scaffold, source access, and firs
 
 **Exit criteria:** architecture documents agree with the actual repository; each layer has a clear owner; no existing route or ingestion behavior is broken; CI passes on the resulting commit.
 
+
+
+## National monitoring scope alignment (12 November 2026)
+
+The complete product mandate is recorded in [National Monitoring Scope and Intelligence Model](./product/national-monitoring-scope.md). This scope covers central and regional government, public finance, policy, public projects, society, the economy, financial markets, public pressure, event impacts, distributional winners/losers, transparent simulations and evidence-led accountability monitoring.
+
+This is the intended coverage, not a statement that all sources or modules are live. The delivery sequence below prevents the interface from overstating actual coverage.
+
+### Next implementation sequence
+
+1. **Canonical event and evidence foundation**
+   - Audit the current schema and existing news/event tables before proposing migrations.
+   - Define event identity, source-to-event links, claims, entities, geography, chronology, duplicate resolution and correction history.
+   - Preserve reported claims separately from verified observations and official records.
+   - Add contract tests for provenance and publication lifecycle.
+
+2. **Source coverage and ingestion**
+   - Inventory lawful, stable official and independent sources for central and regional coverage.
+   - Record access method, licence/attribution, geographic coverage, update frequency and known gaps for each source.
+   - Complete one verified statistical ingestion slice before expanding to more feeds; BPS province-domain ingestion is reference data only, not statistical indicator coverage.
+   - Add operational freshness, failure and coverage reporting.
+
+3. **Public finance and policy/project lifecycle**
+   - Map APBN/APBD, revenue, spending, financing, debt and debt-service datasets with consistent definitions and periods.
+   - Model policy lifecycle and project/procurement milestones using sourced records.
+   - Keep allocation, commitment, contract, payment, delivery and outcome as distinct states.
+
+4. **Pressure and market observation layer**
+   - Build sourced time series for public, political, economic, fiscal and market stress dimensions.
+   - Start with separate observable metrics; do not publish an opaque composite pressure score before methodology and historical validation.
+   - Add IHSG, sector, rupiah and bond series only after reliable access and timestamp alignment are confirmed.
+
+5. **Event impact and winners/losers analysis**
+   - Create a versioned relationship registry linking event types to possible fiscal, social, sector and market transmission channels.
+   - Separate observed movements, plausible mechanisms, empirical associations and causal conclusions.
+   - Include households, workers, MSMEs, sectors, regions, government, consumers and investors; disclose uncertainty and offsetting effects.
+   - Evaluate market reactions with event windows and relevant global/domestic controls.
+
+6. **Transparent policy/project scenarios**
+   - Add versioned models, source-linked inputs, baselines, assumptions, scenarios and sensitivity analysis.
+   - Use NPV/BCR only when required cost and benefit inputs are defensible.
+   - Compare forecasts with later observed outcomes; never present scenarios as facts.
+
+7. **Accountability and Anti-Mafia workflow**
+   - Link procurement, contract changes, payments, delivery, audits and public outcomes where records exist.
+   - Add reproducible risk rules, counter-evidence, human review, correction history and right-of-reply safeguards.
+   - Treat every signal as a lead for review, never as proof of criminal conduct.
+
+8. **Executive synthesis and AI analyst**
+   - Build the executive summary from published canonical records and tested domain outputs.
+   - Display source coverage, freshness, missing data and implementation status for every domain.
+   - Require citations and uncertainty disclosure for AI-generated explanations; AI does not calculate authoritative numeric metrics or publish high-impact findings autonomously.
+
+### Acceptance rule
+
+A capability is marked operational only after a real permitted source is connected, data is validated and traceable, calculations have tests, access controls are verified, and failure/staleness states are visible. Otherwise label it partial, planned, unavailable or not assessed.
