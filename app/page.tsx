@@ -37,12 +37,13 @@ export default async function HomePage() {
   const snapshot = await getNationalSnapshot();
   const configured = supabaseEnv.configured;
   const hasPublishedData = snapshot.observationCount > 0;
+  const todayLabel = new Intl.DateTimeFormat("id-ID", { weekday: "long", day: "2-digit", month: "long", year: "numeric", timeZone: "Asia/Jakarta" }).format(new Date());
 
   return (
     <main className="executive-page dashboard-page">
       <section className="dashboard-welcome">
         <div>
-          <div className="eyebrow">KAMIS, 12 NOVEMBER 2026 · NATIONAL INTELLIGENCE</div>
+          <div className="eyebrow">{todayLabel.toUpperCase()} · NATIONAL INTELLIGENCE</div>
           <h1>Ikhtisar nasional Indonesia</h1>
           <p className="lead">Pantau ekonomi, pembangunan, kesejahteraan, dan tata kelola dari satu ruang kendali.</p>
         </div>
@@ -94,7 +95,7 @@ export default async function HomePage() {
       <section className="dashboard-lower-grid">
         <article className="dashboard-panel">
           <div className="panel-heading"><div><span className="section-kicker">05 / DATA COVERAGE</span><h2>Cakupan data</h2></div><Link href="/data-observatory" className="text-link">Buka observatorium ↗</Link></div>
-          <div className="coverage-list"><div><span>Sumber terdaftar</span><strong>2</strong></div><div><span>Observasi dipublikasikan</span><strong>{snapshot.observationCount}</strong></div><div><span>Status koneksi Supabase</span><strong>{configured ? "Terhubung" : "Belum aktif"}</strong></div></div>
+          <div className="coverage-list"><div><span>Registri sumber</span><strong><Link href="/data-observatory">Lihat katalog ↗</Link></strong></div><div><span>Observasi dipublikasikan</span><strong>{snapshot.observationCount}</strong></div><div><span>Status koneksi Supabase</span><strong>{configured ? "Terhubung" : "Belum aktif"}</strong></div></div>
           <p className="coverage-note">Jumlah sumber terdaftar bukan bukti bahwa seluruh konektor telah berhasil mengambil data.</p>
         </article>
         <article className="briefing-card dashboard-briefing">
