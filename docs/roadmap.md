@@ -145,3 +145,21 @@ Each phase must include:
 - no secrets or private data in Git
 
 Timelines should be estimated after repository scaffold, source access, and first deployment constraints are confirmed.
+
+
+## Phase 1A — Architecture standardization
+
+**Documentation completed on 12 November 2026:**
+- Added canonical repository structure and layer ownership rules in `docs/architecture/repository-structure.md`.
+- Added shared module/data contracts, evidence vocabulary, publication lifecycle and AI boundaries in `docs/architecture/module-contracts.md`.
+- Clarified connector convention: new providers use `lib/connectors/<provider>/`; existing BPS code under `lib/sources/bps/` is retained until a safe, tested migration is prepared.
+- Explicitly distinguished target architecture from implemented code to prevent documentation from overstating delivery.
+
+**Still pending in this phase:**
+- Inventory duplicate/overlapping BPS client implementations and their imports.
+- Decide and execute a safe BPS connector consolidation only after tests and consumer mapping.
+- Add a small contract test/example for one real domain analysis output when its canonical data input is ready.
+- Reconcile README module/layer counts with the current product scope.
+
+**Exit criteria:** architecture documents agree with the actual repository; each layer has a clear owner; no existing route or ingestion behavior is broken; CI passes on the resulting commit.
+
