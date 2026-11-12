@@ -119,6 +119,8 @@ Do not restrict the analysis to listed companies. Consider:
 
 For each affected party, explain the mechanism, direction, time horizon, whether the effect is direct or indirect, evidence, estimated magnitude where calculable, uncertainty and possible offsetting effects. A beneficiary label is an analytical hypothesis until supported by evidence. Do not infer motive or wrongdoing from benefit alone.
 
+The detailed cross-sector analysis workflow, including political/legal event examples, exposure chains, market event studies and the winners/losers matrix, is specified in [Economic Winners & Losers Intelligence](../intelligence/economic-winners-losers.md).
+
 ## 6. Policy and project impact simulator
 
 Simulations must be transparent and reproducible. Each model stores:
