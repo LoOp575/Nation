@@ -54,7 +54,7 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 **Next work:**
 - Implemented the server-only BPS WebAPI province-domain client and bearer-protected POST ingestion route; live execution is still blocked on deployment secrets and a real BPS API key
 - Implemented idempotent upsert into `raw_source_documents` using `(source_id, external_id)` and SHA-256 content hashes
-- Implemented `ingestion_jobs` lifecycle tracking for success/failure and record counts
+- Added `ingestion_jobs` lifecycle tracking for success/failure and record counts
 - Added a server-only Supabase admin client using the secret key; no privileged key is exposed to browser code
 - Added a database-backed Data Observatory view for registered sources and recent ingestion job summaries
 - Live execution remains gated on BPS API key, Supabase secret key, ingestion bearer secret, and a deployed environment
@@ -115,6 +115,22 @@ Build a working vertical slice early. Do not build all 15 modules as empty UI pa
 
 **Exit criteria:** published risk metrics have documented methodology and backtesting; otherwise display "not assessed".
 
+## Phase 6A — Economic Winners & Losers
+
+**Specification added:** [Economic Winners & Losers Intelligence](intelligence/economic-winners-losers.md).
+
+Implementation sequence:
+1. Audit the existing Supabase event, news, evidence, entity, indicator and audit-log schema. Reuse canonical tables and identify actual gaps before proposing migrations.
+2. Map canonical events to policies, budgets, procurement, contracts, projects, organizations, sectors, regions and affected population groups.
+3. Create versioned exposure/transmission-channel definitions for fiscal, operational, social and market pathways.
+4. Connect verified market series for IHSG, sector indices, listed shares, rupiah and SBN yields only after provider access, timestamps, licensing and coverage are validated.
+5. Implement event-study calculations with disclosed estimation/event windows, benchmarks, confounders, data quality and tests.
+6. Build the beneficiary/cost-bearer matrix with evidence references, direct/indirect exposure, time horizon, magnitude or unavailable reason, counter-evidence and uncertainty.
+7. Add event detail and executive dashboard views; show "not assessed" when evidence is insufficient.
+8. Add analyst review, correction history and follow-up outcome tracking for high-impact cases.
+
+**Exit criteria:** one real event is traceable from original evidence through at least one documented exposure mechanism; market movements are separated from benchmark-relative association and causal claims; no beneficiary or company gain is asserted without evidence; tests, access controls, provenance and stale-data states are verified.
+
 ## Phase 7 — AI National Analyst
 
 - Retrieval from approved canonical records
@@ -164,10 +180,9 @@ Timelines should be estimated after repository scaffold, source access, and firs
 **Exit criteria:** architecture documents agree with the actual repository; each layer has a clear owner; no existing route or ingestion behavior is broken; CI passes on the resulting commit.
 
 
-
 ## National monitoring scope alignment (12 November 2026)
 
-The complete product mandate is recorded in [National Monitoring Scope and Intelligence Model](./product/national-monitoring-scope.md). This scope covers central and regional government, public finance, policy, public projects, society, the economy, financial markets, public pressure, event impacts, distributional winners/losers, transparent simulations and evidence-led accountability monitoring.
+The complete product mandate is recorded in [National Monitoring Scope and Intelligence Model](product/national-monitoring-scope.md). This scope covers central and regional government, public finance, policy, public projects, society, the economy, financial markets, public pressure, event impacts, distributional winners/losers, transparent simulations and evidence-led accountability monitoring.
 
 This is the intended coverage, not a statement that all sources or modules are live. The delivery sequence below prevents the interface from overstating actual coverage.
 
@@ -200,6 +215,7 @@ This is the intended coverage, not a statement that all sources or modules are l
    - Separate observed movements, plausible mechanisms, empirical associations and causal conclusions.
    - Include households, workers, MSMEs, sectors, regions, government, consumers and investors; disclose uncertainty and offsetting effects.
    - Evaluate market reactions with event windows and relevant global/domestic controls.
+   - Deliver the detailed Economic Winners & Losers module using the dedicated Phase 6A acceptance criteria.
 
 6. **Transparent policy/project scenarios**
    - Add versioned models, source-linked inputs, baselines, assumptions, scenarios and sensitivity analysis.
