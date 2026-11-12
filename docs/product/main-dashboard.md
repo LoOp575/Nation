@@ -61,7 +61,18 @@ Show linked indicators and sectors. Separate:
 - empirically supported effect
 - unresolved or competing explanations
 
-### 7. Anti-Mafia Watch
+### 7. Economic Winners & Losers
+A cross-domain panel that identifies groups, sectors and organizations potentially exposed to a political event, legal case or government policy. It must show:
+- potential beneficiaries and cost-bearers, including households, workers, MSMEs, government, regions, companies and investors;
+- the documented transmission mechanism, such as a budget decision, procurement contract, regulation, demand shift, cost change or financing condition;
+- observed market responses in IHSG, sector indices, shares, rupiah and SBN yields where reliable data exists;
+- raw market movement separately from benchmark-relative association and causal evidence;
+- effect direction, time horizon, magnitude or unavailable status, supporting evidence, counter-evidence and uncertainty;
+- follow-up milestones that may confirm or invalidate the initial assessment.
+
+The panel links to the full [Economic Winners & Losers Intelligence specification](../intelligence/economic-winners-losers.md). Potential benefit is not proof of actual profit, and a stock-price move is not proof of a company's business gain.
+
+### 8. Anti-Mafia Watch
 Show public project/procurement monitoring:
 - projects under observation
 - budget and contract milestones
@@ -73,13 +84,13 @@ Show public project/procurement monitoring:
 
 Do not expose an allegation as a fact. Use neutral statuses such as Recorded, Needs Review, Elevated Risk Signal, and Official Legal Finding.
 
-### 8. National Risk
+### 9. National Risk
 Display dimensions only when methodology is documented and validated. For every score show factors, weights, baseline, period, uncertainty, model version, and historical performance. If not ready, display a qualitative evidence-backed status or "not yet assessed", not a fabricated number.
 
-### 9. Regional Overview
+### 10. Regional Overview
 Map and rank regions only when coverage and definitions are comparable. Show missing-data coverage and avoid interpreting missing records as zero.
 
-### 10. AI National Briefing
+### 11. AI National Briefing
 AI produces a concise explanation based on retrieved records:
 - what changed
 - what evidence supports it
