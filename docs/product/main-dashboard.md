@@ -112,3 +112,12 @@ Mobile:
 - Mark stale and missing data.
 - Never show placeholder/demo values as live data.
 - Every chart must identify source and methodology.
+
+
+## Approved visual and navigation direction (12 November 2026)
+
+- Theme: light modern interface, white surfaces, soft neutral backgrounds, blue primary accent, and restrained status colors.
+- Navigation: executive-first. The National Snapshot is the landing page; detailed modules remain accessible in grouped secondary navigation.
+- Devices: responsive desktop and mobile layouts. Desktop uses a persistent sidebar; mobile uses a dismissible navigation drawer and compact stacked content.
+- Main page: executive heading, system/data status, published national indicators, sector overview, AI briefing entry point, evidence legend, and advanced-module directory.
+- Data integrity remains unchanged: no demo values are presented as live observations. Empty states explain the missing data and link to Data Observatory.
