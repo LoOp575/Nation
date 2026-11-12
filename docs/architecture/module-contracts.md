@@ -89,7 +89,27 @@ Deterministic code remains responsible for numeric calculations and threshold ev
 
 A public infrastructure project can be represented once in canonical records. Development Monitor reads milestones; Fiscal Intelligence reads budget and payment records; Regional Intelligence reads comparable local indicators; News Intelligence reads attributed reports; Anti-Mafia evaluates procurement and delivery risk signals; Event Impact evaluates observed changes against documented mechanisms. Each module references the same project, source and evidence IDs rather than copying facts into silo tables.
 
-## 10. Contract acceptance checklist
+## 10. Economic Winners & Losers analysis contract
+
+The Economic Winners & Losers module consumes canonical event, evidence, entity, policy, budget, procurement, project and indicator records. It must not create a competing copy of those facts.
+
+A logical analysis result contains:
+- `eventId`, `analysisId` and `methodVersion`;
+- affected entities, sectors, regions and population groups;
+- exposure direction: potential benefit, potential cost, mixed or not determined;
+- transmission mechanism and linked evidence references;
+- direct/indirect classification and time horizon;
+- observed market/economic metrics with units, periods and source references;
+- benchmark-relative association and causal assessment as separate outputs;
+- magnitude and calculation method, or an explicit unavailable reason;
+- counter-evidence, confounders, uncertainty and missing data;
+- review state, analyst and generated timestamp.
+
+The module must separate raw market movement, relative performance, plausible transmission and causal evidence. A stock-price increase, procurement award or budget allocation alone does not prove net economic benefit. High-impact legal allegations and beneficiary claims require human review. If evidence is inadequate, return `insufficient_data` or `not_assessed`.
+
+Detailed workflow and dashboard requirements: [Economic Winners & Losers Intelligence](../intelligence/economic-winners-losers.md).
+
+## 11. Contract acceptance checklist
 
 A module is not considered operational until:
 - it reads canonical records rather than hardcoded demo values
