@@ -121,3 +121,20 @@ Mobile:
 - Devices: responsive desktop and mobile layouts. Desktop uses a persistent sidebar; mobile uses a dismissible navigation drawer and compact stacked content.
 - Main page: executive heading, system/data status, published national indicators, sector overview, AI briefing entry point, evidence legend, and advanced-module directory.
 - Data integrity remains unchanged: no demo values are presented as live observations. Empty states explain the missing data and link to Data Observatory.
+
+
+## Comprehensive national monitoring scope
+
+The product-wide mandate, monitoring domains, evidence model, event-to-impact rules, winners/losers analysis, pressure dimensions, market analysis, policy/project simulation and Anti-Mafia safeguards are defined in [National Monitoring Scope and Intelligence Model](./national-monitoring-scope.md).
+
+The executive dashboard must synthesize these domains into one national picture. In addition to the panels above, the long-term executive summary should include:
+- central and regional government activity and policy implementation;
+- APBN/APBD, revenue, expenditure, debt and financing conditions;
+- separate public, political, economic, fiscal and market pressure indicators;
+- material events linked to affected regions, sectors and population groups;
+- evidence-backed potential beneficiaries and cost-bearers, with uncertainty;
+- observed IHSG, sector, rupiah and bond responses where reliable series exist;
+- project delivery, procurement milestones and accountability risk signals;
+- scenario analysis and follow-up evaluation when input data supports it.
+
+These are product requirements, not a claim that every feed or analysis is already operational. Each panel must show implementation status, source coverage and freshness. The dashboard must prefer "not yet assessed" over a fabricated score or unsupported conclusion.
